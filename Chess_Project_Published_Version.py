@@ -1601,15 +1601,15 @@ def chess_game():
         if names_to_chess_figures_dictionary["Black King"] == result[-2] or names_to_chess_figures_dictionary["White King"] == result[-2]:  # One of the kings is taken from the board
             if names_to_chess_figures_dictionary["Black King"] == result[-2]:
                 time.sleep(1.5)
-                print(Fore.LIGHTCYAN_EX + f.renderText + f'GAME OVER!')
+                print(Fore.LIGHTCYAN_EX + f.renderText('GAME OVER!'))
                 time.sleep(1.5)
-                print(Fore.LIGHTCYAN_EX + f.renderText + f'White player won!')
+                print(Fore.LIGHTCYAN_EX + f.renderText('White player won!'))
                 return "white_player"
             else:
                 time.sleep(1.5)
-                print(Fore.LIGHTCYAN_EX + f.renderText + f'GAME OVER!')
+                print(Fore.LIGHTCYAN_EX + f.renderText('GAME OVER!'))
                 time.sleep(1.5)
-                print(Fore.LIGHTCYAN_EX + f.renderText + f'Black player won!')
+                print(Fore.LIGHTCYAN_EX + f.renderText('Black player won!'))
                 return "black_player"
 
 
@@ -1630,25 +1630,25 @@ while the_game_is_on:
 
     time.sleep(1.5)
 
-    if input(Fore.LIGHTCYAN_EX + "Do you want to see the moves that both of you made during the game? Y/N").upper() == "Y":
+    if input(Fore.LIGHTCYAN_EX + "Do you want to see the moves that both of you made during the game? Y/N ").upper() == "Y":
         reading_history_file = open("current_chess_game_history.txt", "r", encoding="utf-8")
         current_game_history = reading_history_file.readlines()
 
         for index in range(len(current_game_history)):
-            time.sleep(1)
+            time.sleep(2)
             row = current_game_history[index]
             row = row.replace("\n", "")
             if index % 2 == 0:
                 print(Fore.LIGHTWHITE_EX + row)
             else:
                 print(Fore.LIGHTGREEN_EX + row)
-        time.sleep(1.5)
+        time.sleep(2)
 
     print(Fore.LIGHTCYAN_EX + f'The current score is White: {white_player_victories} victories, Black: {black_player_victories} victories')
 
-    time.sleep(1.5)
+    time.sleep(2)
 
-    if input("Do you wish to play another game? Y/N").upper() != "Y":
+    if input("Do you wish to play another game? Y/N ").upper() != "Y":
         the_game_is_on = False
         time.sleep(1)
 
