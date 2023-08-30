@@ -6,7 +6,14 @@ import openai
 
 def chess_game(print_type, f, opponent_type):
     invalid_position_message = "The position that you wish to go to is invalid. Make your move again."
-
+    castling_figures_values = {
+        "White Left Rook": True,
+        "White Right Rook": True,
+        "White King": True,
+        "Black Left Rook": True,
+        "Black Right Rook": True,
+        "Black King": True
+    }
 
     def successful_moving(figure, previous_column, previous_row, new_column, new_row):
         return f'{names_to_chess_figures_dictionary[figure]} [{figure}] successfully moved from {chess_columns_dictionary_reversed_values[previous_column]}{chess_rows_dictionary_reversed_values[previous_row]} to {chess_columns_dictionary_reversed_values[new_column]}{chess_rows_dictionary_reversed_values[new_row]}!'
@@ -228,17 +235,17 @@ def chess_game(print_type, f, opponent_type):
                     break
                 current_working_column += 1
 
-        if (current_row == 7 and final_row == 7 and current_column == 0 and final_column == 4) or (current_row == 7 and final_row == 7 and current_column == 7 and final_column == 4):  # Making a Rocade
+        if (current_row == 7 and final_row == 7 and current_column == 0 and final_column == 4) or (current_row == 7 and final_row == 7 and current_column == 7 and final_column == 4):  # Making a Castling
 
-            if chess_board[7][5] in blank_spaces and chess_board[7][6] in blank_spaces and chess_board[7][4] == names_to_chess_figures_dictionary["White King"] and current_column == 7:
+            if chess_board[7][5] in blank_spaces and chess_board[7][6] in blank_spaces and chess_board[7][4] == names_to_chess_figures_dictionary["White King"] and current_column == 7 and castling_figures_values["White King"] and castling_figures_values["White Right Rook"]:
                 chess_board[7][4] = names_to_chess_figures_dictionary["White Rook"]
                 chess_board[7][7] = names_to_chess_figures_dictionary["White King"]
-                return f'You successfully made a Rocade!'
+                return f'You successfully made a Castling!'
 
-            elif chess_board[7][3] in blank_spaces and chess_board[7][2] in blank_spaces and chess_board[7][1] in blank_spaces and chess_board[7][4] == names_to_chess_figures_dictionary["White King"] and current_column == 0:
+            elif chess_board[7][3] in blank_spaces and chess_board[7][2] in blank_spaces and chess_board[7][1] in blank_spaces and chess_board[7][4] == names_to_chess_figures_dictionary["White King"] and current_column == 0 and castling_figures_values["White King"] and castling_figures_values["White Left Rook"]:
                 chess_board[7][4] = names_to_chess_figures_dictionary["White Rook"]
                 chess_board[7][0] = names_to_chess_figures_dictionary["White King"]
-                return f'You successfully made a Rocade!'
+                return f'You successfully made a Castling!'
 
             else:
                 return invalid_position_message
@@ -258,6 +265,10 @@ def chess_game(print_type, f, opponent_type):
                 return invalid_position_message
             elif current_selected_figure in black_figures:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "White Rook")
+                if final_column == 0:
+                    castling_figures_values["White Left Rook"] = False
+                elif final_column == 7:
+                    castling_figures_values["White Right Rook"] = False
                 current_check_checker = white_rook_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -265,6 +276,10 @@ def chess_game(print_type, f, opponent_type):
 
             else:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "White Rook")
+                if final_column == 0:
+                    castling_figures_values["White Left Rook"] = False
+                elif final_column == 7:
+                    castling_figures_values["White Right Rook"] = False
                 current_check_checker = white_rook_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -312,6 +327,8 @@ def chess_game(print_type, f, opponent_type):
                 return invalid_position_message
             elif current_selected_figure in black_figures:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "White Rook")
+                if final_row == 7:
+                    castling_figures_values["White Right Rook"] = False
                 current_check_checker = white_rook_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -319,6 +336,8 @@ def chess_game(print_type, f, opponent_type):
 
             else:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "White Rook")
+                if final_row == 7:
+                    castling_figures_values["White Right Rook"] = False
                 current_check_checker = white_rook_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -339,6 +358,8 @@ def chess_game(print_type, f, opponent_type):
                 return invalid_position_message
             elif current_selected_figure in black_figures:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "White Rook")
+                if final_row == 7:
+                    castling_figures_values["White Left Rook"] = False
                 current_check_checker = white_rook_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -346,6 +367,8 @@ def chess_game(print_type, f, opponent_type):
 
             else:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "White Rook")
+                if final_row == 7:
+                    castling_figures_values["White Left Rook"] = False
                 current_check_checker = white_rook_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -394,17 +417,17 @@ def chess_game(print_type, f, opponent_type):
                     break
                 current_working_column += 1
 
-        if (current_row == 0 and final_row == 0 and current_column == 0 and final_column == 4) or (current_row == 0 and final_row == 0 and current_column == 7 and final_column == 4):  # Making a Rocade
+        if (current_row == 0 and final_row == 0 and current_column == 0 and final_column == 4) or (current_row == 0 and final_row == 0 and current_column == 7 and final_column == 4):  # Making a Castling
 
-            if chess_board[0][5] in blank_spaces and chess_board[0][6] in blank_spaces and chess_board[0][4] == names_to_chess_figures_dictionary["Black King"] and current_column == 7:
+            if chess_board[0][6] in blank_spaces and chess_board[0][5] in blank_spaces and chess_board[0][4] == names_to_chess_figures_dictionary["Black King"] and current_column == 7 and castling_figures_values["Black King"] and castling_figures_values["Black Right Rook"]:
                 chess_board[0][4] = names_to_chess_figures_dictionary["Black Rook"]
                 chess_board[0][7] = names_to_chess_figures_dictionary["Black King"]
-                return f'You successfully made a Rocade!'
+                return f'You successfully made a Castling!'
 
-            elif chess_board[0][3] in blank_spaces and chess_board[0][2] in blank_spaces and chess_board[0][1] in blank_spaces and chess_board[7][4] == names_to_chess_figures_dictionary["Black King"] and current_column == 0:
+            elif chess_board[0][3] in blank_spaces and chess_board[0][2] in blank_spaces and chess_board[0][1] in blank_spaces and chess_board[7][4] == names_to_chess_figures_dictionary["Black King"] and current_column == 0 and castling_figures_values["Black King"] and castling_figures_values["Black Left Rook"]:
                 chess_board[0][4] = names_to_chess_figures_dictionary["Black Rook"]
                 chess_board[0][0] = names_to_chess_figures_dictionary["Black King"]
-                return f'You successfully made a Rocade!'
+                return f'You successfully made a Castling!'
 
             else:
                 return invalid_position_message
@@ -451,6 +474,10 @@ def chess_game(print_type, f, opponent_type):
                 return invalid_position_message
             elif current_selected_figure in white_figures:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "Black Rook")
+                if final_column == 0:
+                    castling_figures_values["Black Left Rook"] = False
+                elif final_column == 7:
+                    castling_figures_values["Black Right Rook"] = False
                 current_check_checker = black_rook_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -458,6 +485,10 @@ def chess_game(print_type, f, opponent_type):
 
             else:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "Black Rook")
+                if final_column == 0:
+                    castling_figures_values["Black Left Rook"] = False
+                elif final_column == 7:
+                    castling_figures_values["Black Right Rook"] = False
                 current_check_checker = black_rook_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -478,6 +509,8 @@ def chess_game(print_type, f, opponent_type):
                 return invalid_position_message
             elif current_selected_figure in white_figures:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "Black Rook")
+                if final_row == 0:
+                    castling_figures_values["Black Right Rook"] = False
                 current_check_checker = black_rook_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -485,6 +518,8 @@ def chess_game(print_type, f, opponent_type):
 
             else:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "Black Rook")
+                if final_row == 0:
+                    castling_figures_values["Black Left Rook"] = False
                 current_check_checker = black_rook_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -505,6 +540,8 @@ def chess_game(print_type, f, opponent_type):
                 return invalid_position_message
             elif current_selected_figure in white_figures:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "Black Rook")
+                if final_row == 0:
+                    castling_figures_values["Black Left Rook"] = False
                 current_check_checker = black_rook_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -512,6 +549,8 @@ def chess_game(print_type, f, opponent_type):
 
             else:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "Black Rook")
+                if final_row == 0:
+                    castling_figures_values["Black Left Rook"] = False
                 current_check_checker = black_rook_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -1553,20 +1592,21 @@ def chess_game(print_type, f, opponent_type):
                     (chess_board[row - 1][column + 1] == names_to_chess_figures_dictionary["Black King"] and row - 1 > -1 and column + 1 < 8)):
                 return check_message(row, column)
 
-        if (current_row == 7 and final_row == 7 and current_column == 4 and final_column == 7) or (current_row == 7 and final_row == 7 and current_column == 4 and final_column == 0):  # Making a Rocade
+        if (current_row == 7 and final_row == 7 and current_column == 4 and final_column == 7) or (current_row == 7 and final_row == 7 and current_column == 4 and final_column == 0):  # Making a Castling
 
-            if chess_board[7][5] in blank_spaces and chess_board[7][6] in blank_spaces and chess_board[7][7] == names_to_chess_figures_dictionary["White Rook"] and final_column == 7:
+            if chess_board[7][5] in blank_spaces and chess_board[7][6] in blank_spaces and chess_board[7][7] == names_to_chess_figures_dictionary["White Rook"] and final_column == 7 and castling_figures_values["White King"] and castling_figures_values["White Right Rook"]:
                 chess_board[7][4] = names_to_chess_figures_dictionary["White Rook"]
                 chess_board[7][7] = names_to_chess_figures_dictionary["White King"]
-                return f'You successfully made a Rocade!'
+                return f'You successfully made a Castling!'
 
-            elif chess_board[7][3] in blank_spaces and chess_board[7][2] in blank_spaces and chess_board[7][1] in blank_spaces and chess_board[7][0] == names_to_chess_figures_dictionary["White Rook"] and final_column == 0:
+            elif chess_board[7][3] in blank_spaces and chess_board[7][2] in blank_spaces and chess_board[7][1] in blank_spaces and chess_board[7][0] == names_to_chess_figures_dictionary["White Rook"] and final_column == 0 and castling_figures_values["White King"] and castling_figures_values["White Left Rook"]:
                 chess_board[7][4] = names_to_chess_figures_dictionary["White Rook"]
                 chess_board[7][0] = names_to_chess_figures_dictionary["White King"]
-                return f'You successfully made a Rocade!'
+                return f'You successfully made a Castling!'
 
             else:
                 return invalid_position_message
+
         # All possible positions
         elif (   # Upper row
                 (current_row + 1 == final_row and current_column - 1 == final_column and current_row + 1 < 8 and current_column - 1 > -1) or
@@ -1585,6 +1625,7 @@ def chess_game(print_type, f, opponent_type):
                 return invalid_position_message
             elif current_selected_figure in black_figures:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "White King")
+                castling_figures_values["White King"] = False
                 current_check_checker = white_king_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -1592,6 +1633,7 @@ def chess_game(print_type, f, opponent_type):
 
             else:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "White King")
+                castling_figures_values["White King"] = False
                 current_check_checker = white_king_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -1617,20 +1659,21 @@ def chess_game(print_type, f, opponent_type):
                     (chess_board[row - 1][column + 1] == names_to_chess_figures_dictionary["White King"] and row - 1 > -1 and column + 1 < 8)):
                 return check_message(row, column)
 
-        if (current_row == 0 and final_row == 0 and current_column == 4 and final_column == 7) or (current_row == 0 and final_row == 0 and current_column == 4 and final_column == 0):  # Making a Rocade
+        if (current_row == 0 and final_row == 0 and current_column == 4 and final_column == 7) or (current_row == 0 and final_row == 0 and current_column == 4 and final_column == 0):  # Making a Castling
 
-            if chess_board[0][5] in blank_spaces and chess_board[0][6] in blank_spaces and chess_board[0][7] == names_to_chess_figures_dictionary["Black Rook"] and final_column == 7:
+            if chess_board[0][6] in blank_spaces and chess_board[0][5] in blank_spaces and chess_board[0][7] == names_to_chess_figures_dictionary["Black Rook"] and final_column == 7 and castling_figures_values["Black King"] and castling_figures_values["Black Right Rook"]:
                 chess_board[0][4] = names_to_chess_figures_dictionary["Black Rook"]
                 chess_board[0][7] = names_to_chess_figures_dictionary["Black King"]
-                return f'You successfully made a Rocade!'
+                return f'You successfully made a Castling!'
 
-            elif chess_board[0][3] in blank_spaces and chess_board[0][2] in blank_spaces and chess_board[0][1] in blank_spaces and chess_board[0][0] == names_to_chess_figures_dictionary["Black Rook"] and final_column == 0:
+            elif chess_board[0][3] in blank_spaces and chess_board[0][2] in blank_spaces and chess_board[0][1] in blank_spaces and chess_board[0][0] == names_to_chess_figures_dictionary["Black Rook"] and final_column == 0 and castling_figures_values["Black King"] and castling_figures_values["Black Left Rook"]:
                 chess_board[0][4] = names_to_chess_figures_dictionary["Black Rook"]
                 chess_board[0][0] = names_to_chess_figures_dictionary["Black King"]
-                return f'You successfully made a Rocade!'
+                return f'You successfully made a Castling!'
 
             else:
                 return invalid_position_message
+
         # All possible positions
         elif (  # Upper row
                 (current_row + 1 == final_row and current_column - 1 == final_column and current_row + 1 < 8 and current_column - 1 > -1) or
@@ -1649,6 +1692,7 @@ def chess_game(print_type, f, opponent_type):
                 return invalid_position_message
             elif current_selected_figure in white_figures:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "Black King")
+                castling_figures_values["Black King"] = False
                 current_check_checker = black_king_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -1656,6 +1700,7 @@ def chess_game(print_type, f, opponent_type):
 
             else:
                 successful_moving_operations_function(current_row, current_column, final_row, final_column, "Black King")
+                castling_figures_values["Black King"] = False
                 current_check_checker = black_king_check_next_move(final_row, final_column)
                 if current_check_checker != None:
                     check_message_list.append(current_check_checker)
@@ -1794,7 +1839,7 @@ def chess_game(print_type, f, opponent_type):
         )
 
         generated_move = response['choices'][0]['message']['content'].split(" ")
-        print(Fore.GREEN + f'The bot\'s generated response is: "{" ".join(generated_move)}".')
+        print(Fore.GREEN + f'The Bot\'s generated response is: "{" ".join(generated_move)}".')
         time.sleep(0.5)
         return [generated_move[-1], generated_move[-2]]
 
@@ -1897,34 +1942,34 @@ def chess_game(print_type, f, opponent_type):
     def validate_positions(current_selected_row, current_selected_column, final_selected_row, final_selected_column):
         if current_selected_row < 0 or current_selected_row > 7 or current_selected_column < 0 or current_selected_column > 7 or final_selected_row < 0 or final_selected_row > 7 or final_selected_column < 0 or final_selected_column > 7:
             if current_player_index % 2 == 0:
-                print(f'White player, you have entered an invalid position on the chess board. Try again.')
+                print(Fore.RED + f'White player, you have entered an invalid position on the chess board. Try again.')
             else:
                 if opponent_type == "player":
-                    print(f'Black player, you have entered an invalid position on the chess board. Try again.')
+                    print(Fore.RED + f'Black player, you have entered an invalid position on the chess board. Try again.')
                 else:
-                    print(f'The bot has entered an invalid position and will try again.')
+                    print(Fore.RED + f'The Bot has entered an invalid position and will try again.')
             return False
 
         current_selected_figure = chess_board[current_selected_row][current_selected_column]
 
         if current_selected_figure not in chess_figures_dictionary.keys():
             if current_player_index % 2 == 0:
-                print(f'White player, you have selected an empty position. Try again.')
+                print(Fore.RED + f'White player, you have selected an empty position. Try again.')
             else:
                 if opponent_type == "player":
-                    print(f'Black player, you have selected an empty position. Try again.')
+                    print(Fore.RED + f'Black player, you have selected an empty position. Try again.')
                 else:
-                    print(f'The bot has selected an empty position and will try again.')
+                    print(Fore.RED + f'The Bot has selected an empty position and will try again.')
             return False
 
         if (current_selected_figure not in white_figures) if current_player_index % 2 == 0 else (current_selected_figure not in black_figures):
             if current_player_index % 2 == 0:
-                print(f'White player, you cannot move your opponent\'s figures. Try again.')
+                print(Fore.RED + f'White player, you cannot move your opponent\'s figures. Try again.')
             else:
                 if opponent_type == "player":
-                    print(f'Black player, you cannot move your opponent\'s figures. Try again.')
+                    print(Fore.RED + f'Black player, you cannot move your opponent\'s figures. Try again.')
                 else:
-                    print(f'The bot tried to move your figure, so it will try again.')
+                    print(Fore.RED + f'The Bot tried to move your figure, so it will try again.')
             return False
 
 
@@ -1939,7 +1984,7 @@ def chess_game(print_type, f, opponent_type):
     current_player_index = -1
     check_message_list = []
 
-    while True:  # The cycle is necessary because we don't know how many times the game will last
+    while True:  # The cycle is necessary because we don't know how much the game will last
         current_player_index += 1
         time.sleep(1.5)
 
@@ -1967,12 +2012,12 @@ def chess_game(print_type, f, opponent_type):
         except (KeyError, ValueError, IndexError):
             time.sleep(1)
             if current_player_index % 2 == 0:
-                print(f'White player, you have selected an invalid position. Try again.')
+                print(Fore.RED + f'White player, you have selected an invalid position. Try again.')
             else:
                 if opponent_type == "player":
-                    print(f'Black player, you have selected an invalid position. Try again.')
+                    print(Fore.RED + f'Black player, you have selected an invalid position. Try again.')
                 else:
-                    print(f'The bot generated an invalid position and will try again.')
+                    print(Fore.RED + f'The Bot generated an invalid position and will try again.')
             current_player_index -= 1
             continue
 
@@ -2029,5 +2074,5 @@ def chess_game(print_type, f, opponent_type):
                 if opponent_type == "player":
                     print(Fore.LIGHTCYAN_EX + f.renderText('Black player won!'))
                 else:
-                    print(Fore.LIGHTCYAN_EX + f.renderText("The bot won!"))
+                    print(Fore.LIGHTCYAN_EX + f.renderText("The Bot won!"))
                 return "black_player"
