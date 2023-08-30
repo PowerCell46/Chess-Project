@@ -33,7 +33,6 @@ time.sleep(1.5)
 if input(Fore.LIGHTCYAN_EX + "Do you want to read the specifics of this particular game? Y/N ").upper() == "Y":
     rules_list = ["You can write the commands in Upper or Lower case, whatever you prefer.",
                   "If you enter an invalid position, the Game will inform you and you will have to enter again.",
-                  "You can make a Rocade even if you have moved the King or the Rook before, but they MUST be in their right positions!",
                   "After finishing the game you'll have the ability to see every step that each player has made.",
                   "The program ends when one of the Kings is taken out of the board.",
                   # "Printing externally is more eye-appealing, but for some reason the second row of the chessboard is moved. It will be fixed at a later time.",  # Future work
